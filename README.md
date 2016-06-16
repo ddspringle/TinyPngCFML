@@ -9,7 +9,7 @@ To use this wrapper, simply initialize it with your API key, as follows:
     // get the TinifyService
     tinifyService = createObject( 'component', 'model.services.TinifyService').init( apiKey = '[YOUR_API_KEY]' );
 
-You can then call the service to shrink (compress) PNG or JPG images using a local file, as follows:
+You can then call the service to shrink (compress) PNG or JPG images using a local file, returning only the image data as a variable, as follows:
 
     // get the path to the file
     filePath = expandPath( 'myImage.png' );
@@ -21,12 +21,19 @@ You can also call the service to shrink remote files, as follows:
     // get the image as a variable from the tinify service    
 	imageData = tinifyService.shrink( url = 'http://www.domain.com/myImage.png' );
 
-You can optionally get the results back as a struct that contains the location (url) of the file, the number of compressions  completed and compression details, as follows:
+You can optionally get the results back as a struct that contains the location (url) of the file, the number of compressions  completed, compression details and the image as a variable, as follows:
 
     // get the path to the file
     filePath = expandPath( 'myImage.png' );
     // get the structure as a variable from the tinify service    
 	returnStruct = tinifyService.shrink( filePath = filePath, returnType = 'struct' );
+
+This returns:
+
+    location: the location (url) of the compressed image
+    compCount: the total compressions used this calendar month
+    details: output size and type
+    imageData: image data as a variable (to write to disk, browser, etc.)
 
 You can also resize an image at the same time as you compress it by passing in the method (scale, fit or cover) and the height and/or width (both required for fit or cover methods), as follows:
 
