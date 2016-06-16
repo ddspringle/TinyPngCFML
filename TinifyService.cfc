@@ -72,14 +72,19 @@ component output="false" displayname="tinify" accessors="true" {
 		}
 
 		// check if we're returning the image file and not the struct data
-		if( arguments.returnType eq 'file' and !structKeyExists( result.details, 'error' ) ) {
+		if( arguments.returnType eq 'file' and structKeyExists( result, 'location' ) ) {
 
 			// return the image data from the location, passing any resize options
 			return getImageData( url = result.location, options = options );
 		}
 
-		// get the image data as part of the returned struct
-		result.imageData = getImageData( url = result.location, options = options );
+		// check that we didn't have any errors and have an image location to fetch
+		if( structKeyExists( result, 'location') ) {
+
+			// get the image data as part of the returned struct
+			result.imageData = getImageData( url = result.location, options = options );
+
+		}
 
 		// return the struct instead
 		return result;
