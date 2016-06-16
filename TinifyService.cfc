@@ -26,7 +26,7 @@ component output="false" displayname="tinify" accessors="true" {
 			variables.version = listFirst( server.coldfusion.productversion );
 		}
 
-		setUserAgent( 'Tinify/1.0/' & variables.product & '/' & variables.version & ' (CFML Engine)');
+		setUserAgent( 'Tinify/1.0/' & variables.product & '/' & variables.version & ' (CFML Engine)' );
 		
 		return this;
 	}
