@@ -44,7 +44,7 @@ If you find any bugs or have a feature you'd like to see implemented in this cod
 
 ## Contributing
 
-This project is actively being maintained and monitored by Denard Springle. If you would like to contribute to this example please feel free to fork, modify and send a pull request!
+This project is actively being maintained and monitored by Denard Springle. If you would like to contribute to this project please feel free to fork, modify and send a pull request!
 
 ## License
 
