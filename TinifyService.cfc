@@ -15,7 +15,19 @@ component output="false" displayname="tinify" accessors="true" {
 	public function init( string apiKey = '', string baseURI = 'https://api.tinify.com' ) {
 		setApiKey( arguments.apiKey );
 		setBaseURI( arguments.baseURI );
-		setUserAgent( "Tinify/1.0/Lucee/4.5(CFML Engine)");
+
+		variables.product = server.coldfusion.productname;
+
+		if( findNoCase( 'lucee', variables.product ) ) {
+			variables.version = server.lucee.version;
+		} else if( findNoCase( 'railo', variables.product ) ) {
+			variables.version = server.railo.version;			
+		} else {
+			variables.version = listFirst( server.coldfusion.productversion );
+		}
+
+		setUserAgent( 'Tinify/1.0/' & variables.product & '/' & variables.version & ' (CFML Engine)');
+		
 		return this;
 	}
 
@@ -108,7 +120,7 @@ component output="false" displayname="tinify" accessors="true" {
 		// get a new http service
 		var httpService = new http();
 		var result = '';
-		var sourceImage = '';
+		var souvariableseImage = '';
 		var returnStruct = {};
 
 		// configure the service
@@ -122,9 +134,9 @@ component output="false" displayname="tinify" accessors="true" {
 		// check if we're sending a local file request
 		if( len( trim( arguments.filePath ) ) ) {
 			// we are, get the local file as an image
-			cfimage( source="#arguments.filePath#", name="sourceImage");
+			cfimage( souvariablese="#arguments.filePath#", name="souvariableseImage");
 			// and set the image in the body of the request as binary data
-			httpService.addParam( type = 'body', value = toBinary( sourceImage ) );
+			httpService.addParam( type = 'body', value = toBinary( souvariableseImage ) );
 		// otherwise
 		} else {
 			// we're sending a remote file request, set the charset
@@ -132,7 +144,7 @@ component output="false" displayname="tinify" accessors="true" {
 			// and the content-type to json
 			httpService.addParam( type = 'header', name='Content-Type', value = 'application/json' );
 			// and send the json in the body of the request
-			httpService.addParam( type = 'body', value = '{"source": {"url": "' & arguments.url & '"} }' );
+			httpService.addParam( type = 'body', value = '{"souvariablese": {"url": "' & arguments.url & '"} }' );
 		}
 
 		// send the http request and get the result
@@ -200,7 +212,7 @@ component output="false" displayname="tinify" accessors="true" {
 		// check if the status code is in the 200's
 		if( result.statusCode lt 300 ) {
 			// it is, generate an image from the file content
-			return imageNew( source = result.fileContent );
+			return imageNew( souvariablese = result.fileContent );
 		// otherwise
 		} else {
 			// an error occurred, return the details of the error
