@@ -54,29 +54,32 @@ component output="false" displayname="tinify" accessors="true" {
 			result = doApiCall( endpoint = endpoint, url = arguments.url );
 		}
 
+		// check if we're requesting a resize at the same time
+		if( len( trim( arguments.method ) ) and ( arguments.height gt 0 or arguments.width gt 0 ) ) {
+			// we are, set the resize option
+			options = '{ "resize": { "method": "' & arguments.method & '"';
+			// check if we've passed width
+			if( arguments.width gt 0 ) {
+				// we have, set the width in the rezise options
+				options = options & ', "width": ' & arguments.width;
+			}
+			//check if we've passed height
+			if( arguments.height gt 0 ) {
+				// we have, set the height in the resize options
+				options = options & ', "height": ' & arguments.height;
+			}
+			options = options & ' } }';
+		}
+
 		// check if we're returning the image file and not the struct data
 		if( arguments.returnType eq 'file' and !structKeyExists( result.details, 'error' ) ) {
-
-			// we are, check if we're requesting a resize at the same time
-			if( len( trim( arguments.method ) ) and ( arguments.height gt 0 or arguments.width gt 0 ) ) {
-				// we are, set the resize option
-				options = '{ "resize": { "method": "' & arguments.method & '"';
-				// check if we've passed width
-				if( arguments.width gt 0 ) {
-					// we have, set the width in the rezise options
-					options = options & ', "width": ' & arguments.width;
-				}
-				//check if we've passed height
-				if( arguments.height gt 0 ) {
-					// we have, set the height in the resize options
-					options = options & ', "height": ' & arguments.height;
-				}
-				options = options & ' } }';
-			}
 
 			// return the image data from the location, passing any resize options
 			return getImageData( url = result.location, options = options );
 		}
+
+		// get the image data as part of the returned struct
+		result.imageData = getImageData( url = result.location, options = options );
 
 		// return the struct instead
 		return result;
