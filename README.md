@@ -7,7 +7,7 @@ This is a CFC wrapper for the [TinyPng.com](https://tinypng.com/developers) API 
 To use this wrapper, simply initialize it with your API key, as follows:
 
     // get the TinifyService
-    tinifyService = createObject( 'component', 'model.services.TinifyService').init( apiKey = '[YOUR_API_KEY]' );
+    tinifyService = new model.services.TinifyService( apiKey = '[YOUR_API_KEY]' );
 
 You can then call the service to shrink (compress) PNG or JPG images using a local file, returning only the image data as a variable, as follows:
 
